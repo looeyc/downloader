@@ -1,58 +1,13 @@
 /*
- * mdlmg.h
+ * mdlmg.c
  *
- *  Created on: 2015-5-30
+ *  Created on: 2015-5-31
  *      Author: looeyc
  */
 
-#ifndef MDLMG_H_
-#define MDLMG_H_
-
-#include <time.h>
-#include "mposition/mposition.h"
-
-//Macro const definition
-#define PATHLENMAX			128
-#define DESCLENMAX			128
-#define BROWSERINFOLENMAX	128
-
-//For fDlmg_CreatPack()
-#define DEFAULT				0x00000000
-#define RAPLACE_IF_EXIST	0x00000001
-
-//Data type definition
-typedef unsigned int tyPackUUID; //UUID for download packets
-typedef unsigned int tyRecordID; //ID for download records
-
-//For fDlmg_Init()
-typedef struct{
-  char DateBasePath[PATHLENMAX]; //Path of the downloader.db file
-}stDlmgCfg;
-
-//Type of download packs
-typedef enum{
-  APK, //apk for android
-  APR  //apr for IOS
-}enPackType;
-
-//Downloading packs struct
-typedef struct{
-  tyPackUUID PackID;
-  enPackType Type;
-  char StorePath[PATHLENMAX];
-  char IconPath[PATHLENMAX];
-  char Descript[DESCLENMAX];
-  time_t ExpireDate;
-}stDownPack;
-
-//Downloading records struct
-typedef struct{
-  tyRecordID RecordID;
-  tyPackUUID PackID;
-  time_t DownTime;
-  char BrowserInfo[BROWSERINFOLENMAX];
-  stPosition Position;
-}stDownRecord;
+#include <stdio.h>
+#include "errocode.h"
+#include "mdlmg.h"
 
 //Function: Init the Dlmg module
 //Parameters:
@@ -60,7 +15,14 @@ typedef struct{
 //return:
 //	0 - success
 //	else - consult the errocode.h
-int fDlmg_Init(stDlmgCfg *pDlmgCfg);
+int fDlmg_Init(stDlmgCfg *pDlmgCfg)
+{
+	if(pDlmgCfg==NULL){
+		return ILLEGAL_INPUT;
+	}
+
+	return SUCCESS;
+}
 
 //Function: Creat a download pack with parameters
 //Parameters:
@@ -71,7 +33,14 @@ int fDlmg_Init(stDlmgCfg *pDlmgCfg);
 //return:
 //	0 - succeed
 //	else - consult the errocode.h
-int fDlmg_CreatPack(stDownPack *pPack, int Option);
+int fDlmg_CreatPack(stDownPack *pPack, int Option)
+{
+	if(pPack==NULL){
+		return ILLEGAL_INPUT;
+	}
+
+	return SUCCESS;
+}
 
 //Function: Update a packet with parameters
 //Parameters:
@@ -79,7 +48,14 @@ int fDlmg_CreatPack(stDownPack *pPack, int Option);
 //return:
 //	0 - succeed
 //	else - consult the errocode.h
-int fDlmg_UpdatePack(stDownPack *pPack);
+int fDlmg_UpdatePack(stDownPack *pPack)
+{
+	if(pPack==NULL){
+		return ILLEGAL_INPUT;
+	}
+
+	return SUCCESS;
+}
 
 //Function: Remove a packet
 //Parameters:
@@ -87,7 +63,10 @@ int fDlmg_UpdatePack(stDownPack *pPack);
 //return:
 //	0 - succeed
 //	else - consult the errocode.h
-int fDlmg_RemovePack(tyPackUUID PackID);
+int fDlmg_RemovePack(tyPackUUID PackID)
+{
+	return SUCCESS;
+}
 
 //Function: Get the ID list of all packs
 //Parameters:
@@ -99,7 +78,14 @@ int fDlmg_RemovePack(tyPackUUID PackID);
 //Note:
 //	If there is not enough space in pPackIDList to hold all the apples found, then the maxim number of apples will be returned.
 //	In other words, if you got a return vaule = PackIDListLen, then there maybe more IDs remaining.
-int fDlmg_GetPackIDList(tyPackUUID *pPackIDList,int PackIDListLen);
+int fDlmg_GetPackIDList(tyPackUUID *pPackIDList,int PackIDListLen)
+{
+	if(pPackIDList==NULL){
+		return ILLEGAL_INPUT;
+	}
+
+	return SUCCESS;
+}
 
 //Function: Get a specific pack by Pack UUID
 //Parameters:
@@ -109,7 +95,14 @@ int fDlmg_GetPackIDList(tyPackUUID *pPackIDList,int PackIDListLen);
 //	0 - No pack with specific UUID was found.
 //	1 - Succeed, found one.
 //	else - consult the errocode.h
-int fDlmg_GetPackByID(tyPackUUID PackID, stDownPack *pPack);
+int fDlmg_GetPackByID(tyPackUUID PackID, stDownPack *pPack)
+{
+	if(pPack==NULL){
+		return ILLEGAL_INPUT;
+	}
+
+	return SUCCESS;
+}
 
 //Function: Get the total downloading times of a specific pack
 //Parameters:
@@ -117,7 +110,10 @@ int fDlmg_GetPackByID(tyPackUUID PackID, stDownPack *pPack);
 //return:
 //	>=0- Succeed, the downloading time
 //	else - consult the errocode.h
-int fDlmg_GetRecordNum(tyPackUUID PackID);
+int fDlmg_GetRecordNum(tyPackUUID PackID)
+{
+	return 0;
+}
 
 //Function: Get the downloading record ID list of a specific pack.
 //Parameters:
@@ -130,7 +126,14 @@ int fDlmg_GetRecordNum(tyPackUUID PackID);
 //Note:
 //	If there is not enough space in pPackIDList to hold all the apples found, then the maxim number of apples will be returned.
 //	In other words, if you got a return vaule = PackIDListLen, then there maybe more IDs remaining.
-int fDlmg_GetRecordIDList(tyPackUUID PackID, tyRecordID *pRecordIDList, int RecordIDListLen);
+int fDlmg_GetRecordIDList(tyPackUUID PackID, tyRecordID *pRecordIDList, int RecordIDListLen)
+{
+	if(pRecordIDList==NULL){
+		return ILLEGAL_INPUT;
+	}
+
+	return SUCCESS;
+}
 
 //Function: Get the specific downloading record
 //Parameters:
@@ -140,7 +143,14 @@ int fDlmg_GetRecordIDList(tyPackUUID PackID, tyRecordID *pRecordIDList, int Reco
 //	0 - No record found.
 //	1 - Succeed, found one.
 //	else - consult the errocode.h
-int fDlmg_GetRecordByID(tyRecordID RecordID, stDownRecord *pRecord);
+int fDlmg_GetRecordByID(tyRecordID RecordID, stDownRecord *pRecord)
+{
+	if(pRecord==NULL){
+		return ILLEGAL_INPUT;
+	}
+
+	return SUCCESS;
+}
 
 //Function: Remove all downloading records of a specific Pack
 //Parameters:
@@ -148,6 +158,9 @@ int fDlmg_GetRecordByID(tyRecordID RecordID, stDownRecord *pRecord);
 //return:
 //	>=0 - Succeed, the number of IDs returned.
 //	else - consult the errocode.h
-int fDlmg_RemoveRecordsByPackID(tyPackUUID PackID);
+int fDlmg_RemoveRecordsByPackID(tyPackUUID PackID)
+{
+	return SUCCESS;
+}
 
-#endif /* MDLMG_H_ */
+
