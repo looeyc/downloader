@@ -4,13 +4,16 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../downloader.c 
+../downloader.c \
+../downloader_db.c 
 
 OBJS += \
-./downloader.o 
+./downloader.o \
+./downloader_db.o 
 
 C_DEPS += \
-./downloader.d 
+./downloader.d \
+./downloader_db.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
